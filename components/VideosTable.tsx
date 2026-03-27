@@ -118,8 +118,9 @@ export function VideosTable({ videos, sortField, sortDirection, onSort }: Videos
               </td>
               <td className="px-4 py-3">
                 {video.isTrending ? (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
-                    🔥 Trending
+                  <span className="inline-flex items-center justify-center gap-1 rounded-full bg-green-100 px-3 py-1 text-xs font-medium leading-none text-green-700">
+                    <span className="leading-none">🔥</span>
+                    <span className="leading-none">Trending</span>
                   </span>
                 ) : null}
               </td>

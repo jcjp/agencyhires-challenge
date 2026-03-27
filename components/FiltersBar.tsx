@@ -92,7 +92,7 @@ export function FiltersBar({ filters, onChange, videos }: FiltersBarProps) {
           <button
             onClick={() => set("sortDirection", filters.sortDirection === "desc" ? "asc" : "desc")}
             aria-label={`Sort ${filters.sortDirection === "desc" ? "ascending" : "descending"}`}
-            className="rounded-md border border-gray-300 px-2 py-1.5 text-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="rounded-md border border-gray-300 px-2 py-1.5 text-sm text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             {filters.sortDirection === "desc" ? "↓" : "↑"}
           </button>
