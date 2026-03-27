@@ -1,0 +1,37 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "agencyhires-challenge",
+  "compatibility_date": "2026-03-17",
+  "preview_urls": false,
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+  },
+  "services": [
+    {
+      // Self-reference service binding, the service name must match the worker name
+      // see https://opennext.js.org/cloudflare/caching
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "agencyhires-challenge",
+    },
+  ],
+  "images": {
+    // Enable image optimization
+    // see https://opennext.js.org/cloudflare/howtos/image
+    "binding": "IMAGES",
+  },
+  // POLICY_AUD and TEAM_DOMAIN are stored as Wrangler secrets (not in this file).
+  // Set them once with:
+  //   wrangler secret put POLICY_AUD
+  //   wrangler secret put TEAM_DOMAIN
+  "kv_namespaces": [
+    {
+      // Run: wrangler kv namespace create CACHE_KV
+      // Then replace the id below with the output
+      "binding": "CACHE_KV",
+      "id": "342cb897910b49958ff6939b6ccbc13b",
+    },
+  ],
+}
