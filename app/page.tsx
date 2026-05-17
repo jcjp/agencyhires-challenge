@@ -134,26 +134,31 @@ export default function Home() {
   }, [appState, filters]);
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-zinc-950">
       {/* Header bar */}
-      <header className="bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-3">
-          <div className="text-red-600 text-2xl font-black tracking-tight select-none">▶</div>
-          <span className="text-gray-900 font-semibold text-base">YouTube Channel Analyzer</span>
+      <header className="border-b border-zinc-900 bg-zinc-950/95 backdrop-blur-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <span className="text-zinc-50 font-semibold text-sm tracking-tight">
+              Channel Analytics
+            </span>
+          </div>
         </div>
       </header>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-6">
+      <div className="max-w-7xl mx-auto px-6 py-12 space-y-8">
         {/* Idle: landing */}
         {appState.status === "idle" && (
-          <div className="flex flex-col items-center justify-center py-16 gap-8">
-            <div className="text-center space-y-2">
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
-                What&apos;s crushing it this month?
+          <div className="flex flex-col items-center justify-center py-24 gap-10">
+            <div className="text-center space-y-4 max-w-2xl">
+              <p className="text-sm text-zinc-500 font-medium">Performance Intelligence</p>
+              <h1 className="text-5xl md:text-6xl font-semibold text-zinc-50 tracking-tight leading-[0.95]">
+                Identify top-performing content
               </h1>
-              <p className="text-gray-500 text-base max-w-md">
-                Paste a YouTube channel URL to instantly see which videos are performing best —
-                views, views/day, likes, and trending signals.
+              <p className="text-base leading-7 text-zinc-400 max-w-lg mx-auto">
+                Analyze any YouTube channel to surface high-momentum videos, engagement patterns,
+                and trending signals across configurable time windows.
               </p>
             </div>
             <ChannelInput onSubmit={handleChannelSubmit} />
@@ -165,7 +170,7 @@ export default function Home() {
 
         {/* Error */}
         {appState.status === "error" && (
-          <div className="flex flex-col items-center gap-6 py-8">
+          <div className="flex flex-col items-center gap-6 py-16">
             <ErrorState
               message={appState.message}
               code={appState.code}
@@ -176,7 +181,7 @@ export default function Home() {
 
         {/* Success */}
         {appState.status === "success" && (
-          <div className="space-y-4">
+          <div className="space-y-6">
             <ResultsHeader
               channel={appState.data.channel}
               window={appState.data.window}
@@ -195,9 +200,11 @@ export default function Home() {
 
             <VideoCards videos={filteredVideos} />
 
-            <p className="text-xs text-gray-400 text-center pt-2">
-              Public metrics from YouTube Data API v3. Views/Day and Trending are derived estimates.
-            </p>
+            <div className="pt-8 pb-4">
+              <p className="text-xs text-zinc-600 text-center font-mono">
+                Data: YouTube API v3 · Views/Day and Trending metrics are calculated estimates
+              </p>
+            </div>
           </div>
         )}
       </div>

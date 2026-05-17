@@ -61,30 +61,34 @@ export function FiltersBar({ filters, onChange, videos }: FiltersBarProps) {
   }
 
   return (
-    <div className="flex flex-wrap gap-3 items-end py-3">
+    <div className="flex flex-wrap gap-3 items-end py-4 px-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 backdrop-blur-sm">
       {/* Search */}
-      <div className="flex-1 min-w-40">
-        <label className="block text-xs font-medium text-gray-600 mb-1">Search</label>
+      <div className="flex-1 min-w-48">
+        <label className="block text-xs font-medium text-zinc-400 mb-1.5 uppercase tracking-wide">
+          Search
+        </label>
         <input
           type="search"
           value={filters.search}
           onChange={(e) => set("search", e.target.value)}
           placeholder="Filter by title…"
-          className="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          className="w-full rounded-lg border border-zinc-700 px-3 py-2 text-sm text-zinc-50 bg-zinc-800 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-150"
         />
       </div>
 
       {/* Sort */}
       <div>
-        <label className="block text-xs font-medium text-gray-600 mb-1">Sort by</label>
-        <div className="flex gap-1">
+        <label className="block text-xs font-medium text-zinc-400 mb-1.5 uppercase tracking-wide">
+          Sort by
+        </label>
+        <div className="flex gap-2">
           <select
             value={filters.sortField}
             onChange={(e) => set("sortField", e.target.value as SortField)}
-            className="rounded-md border border-gray-300 px-3 py-1.5 text-sm text-black bg-white focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="rounded-lg border border-zinc-700 px-3 py-2 text-sm text-zinc-50 bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-150"
           >
             {SORT_OPTIONS.map((o) => (
-              <option key={o.value} value={o.value}>
+              <option key={o.value} value={o.value} className="bg-zinc-800">
                 {o.label}
               </option>
             ))}
@@ -92,7 +96,7 @@ export function FiltersBar({ filters, onChange, videos }: FiltersBarProps) {
           <button
             onClick={() => set("sortDirection", filters.sortDirection === "desc" ? "asc" : "desc")}
             aria-label={`Sort ${filters.sortDirection === "desc" ? "ascending" : "descending"}`}
-            className="rounded-md border border-gray-300 px-2 py-1.5 text-sm text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="rounded-lg border border-zinc-700 px-3 py-2 text-sm text-zinc-300 bg-zinc-800 hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-150"
           >
             {filters.sortDirection === "desc" ? "↓" : "↑"}
           </button>
@@ -101,17 +105,19 @@ export function FiltersBar({ filters, onChange, videos }: FiltersBarProps) {
 
       {/* Window */}
       <div>
-        <label className="block text-xs font-medium text-gray-600 mb-1">Date Window</label>
-        <div className="flex rounded-md border border-gray-300 overflow-hidden">
+        <label className="block text-xs font-medium text-zinc-400 mb-1.5 uppercase tracking-wide">
+          Date Window
+        </label>
+        <div className="flex rounded-lg border border-zinc-700 overflow-hidden">
           {WINDOW_OPTIONS.map((o) => (
             <button
               key={o.value}
               onClick={() => set("window", o.value)}
               className={[
-                "px-3 py-1.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-500",
+                "px-3 py-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500 transition-all duration-150",
                 filters.window === o.value
-                  ? "bg-red-600 text-white"
-                  : "bg-white text-gray-700 hover:bg-gray-50",
+                  ? "bg-white text-black"
+                  : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700",
               ].join(" ")}
             >
               {o.label}
@@ -122,34 +128,38 @@ export function FiltersBar({ filters, onChange, videos }: FiltersBarProps) {
 
       {/* Min views */}
       <div>
-        <label className="block text-xs font-medium text-gray-600 mb-1">Min Views</label>
+        <label className="block text-xs font-medium text-zinc-400 mb-1.5 uppercase tracking-wide">
+          Min Views
+        </label>
         <input
           type="number"
           min={0}
           value={filters.minViews || ""}
           onChange={(e) => set("minViews", Number(e.target.value) || 0)}
           placeholder="0"
-          className="w-28 rounded-md border border-gray-300 px-3 py-1.5 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          className="w-28 rounded-lg border border-zinc-700 px-3 py-2 text-sm text-zinc-50 bg-zinc-800 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-150"
         />
       </div>
 
       {/* In-window toggle */}
-      <div className="flex items-end gap-1.5">
-        <label className="flex items-center gap-1.5 cursor-pointer select-none">
+      <div className="flex items-end gap-2 pb-0.5">
+        <label className="flex items-center gap-2 cursor-pointer select-none group">
           <input
             type="checkbox"
             checked={filters.inWindowOnly}
             onChange={(e) => set("inWindowOnly", e.target.checked)}
-            className="rounded border-gray-300 text-red-600 focus:ring-red-500"
+            className="rounded border-zinc-700 text-emerald-500 focus:ring-emerald-500 bg-zinc-800"
           />
-          <span className="text-sm text-gray-700">In window only</span>
+          <span className="text-sm text-zinc-300 group-hover:text-zinc-200 transition-colors">
+            In window only
+          </span>
         </label>
       </div>
 
       {/* Export */}
       <button
         onClick={exportCsv}
-        className="ml-auto rounded-md border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"
+        className="ml-auto rounded-lg border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-300 bg-zinc-800 hover:bg-zinc-700 hover:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-150"
       >
         Export CSV
       </button>

@@ -28,14 +28,14 @@ function formatPublished(iso: string): string {
 export function VideosTable({ videos, sortField, sortDirection, onSort }: VideosTableProps) {
   if (videos.length === 0) {
     return (
-      <div className="text-center py-16 text-gray-500 text-sm">No videos match your filters.</div>
+      <div className="text-center py-24 text-zinc-500 text-sm">No videos match your filters.</div>
     );
   }
 
   return (
-    <div className="hidden md:block overflow-x-auto rounded-lg border border-gray-200">
-      <table className="min-w-full divide-y divide-gray-200 text-sm">
-        <thead className="bg-gray-50 sticky top-0 z-10">
+    <div className="hidden md:block overflow-x-auto rounded-2xl border border-zinc-800 bg-zinc-900/60 backdrop-blur-sm">
+      <table className="min-w-full divide-y divide-zinc-800 text-sm">
+        <thead className="bg-zinc-900 sticky top-0 z-10">
           <tr>
             {COLUMNS.map((col) => (
               <th
@@ -43,23 +43,30 @@ export function VideosTable({ videos, sortField, sortDirection, onSort }: Videos
                 scope="col"
                 onClick={col.field ? () => onSort(col.field!) : undefined}
                 className={[
-                  "px-4 py-3 font-semibold text-gray-600 whitespace-nowrap",
+                  "px-6 py-4 font-medium text-zinc-400 whitespace-nowrap text-xs tracking-wide uppercase",
                   col.align === "right" ? "text-right" : "text-left",
-                  col.field ? "cursor-pointer hover:text-gray-900 select-none" : "",
+                  col.field
+                    ? "cursor-pointer hover:text-zinc-200 select-none transition-colors duration-150"
+                    : "",
                 ].join(" ")}
               >
                 {col.label}
                 {col.field === sortField && (
-                  <span className="ml-1 text-red-500">{sortDirection === "desc" ? "↓" : "↑"}</span>
+                  <span className="ml-1.5 text-emerald-400">
+                    {sortDirection === "desc" ? "↓" : "↑"}
+                  </span>
                 )}
               </th>
             ))}
-            <th scope="col" className="px-4 py-3 text-left font-semibold text-gray-600">
+            <th
+              scope="col"
+              className="px-6 py-4 text-left font-medium text-zinc-400 text-xs tracking-wide uppercase"
+            >
               Trend
             </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-100 bg-white">
+        <tbody className="divide-y divide-zinc-800/50 bg-zinc-900/40">
           {videos.map((video) => (
             <tr
               key={video.id}
@@ -72,31 +79,31 @@ export function VideosTable({ videos, sortField, sortDirection, onSort }: Videos
               }}
               role="link"
               aria-label={`Open ${video.title} on YouTube`}
-              className="cursor-pointer hover:bg-red-50 focus:outline-none focus:bg-red-50 transition-colors"
+              className="cursor-pointer hover:bg-zinc-800/40 focus:outline-none focus:bg-zinc-800/40 transition-colors duration-150 group"
             >
               {/* Thumbnail + title */}
-              <td className="px-4 py-3">
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="relative h-12 w-20 rounded overflow-hidden shrink-0 bg-gray-100">
+              <td className="px-6 py-4">
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="relative h-14 w-24 rounded-lg overflow-hidden shrink-0 bg-zinc-800 border border-zinc-700">
                     <Image
                       src={video.thumbnail}
                       alt=""
                       fill
-                      sizes="80px"
-                      className="object-cover"
+                      sizes="96px"
+                      className="object-cover group-hover:scale-105 transition-transform duration-200"
                     />
                   </div>
                   <div className="min-w-0">
-                    <p className="font-medium text-gray-900 line-clamp-2 leading-tight">
+                    <p className="font-medium text-zinc-50 line-clamp-2 leading-snug">
                       {video.title}
                     </p>
                     {video.duration && (
-                      <p className="text-xs text-gray-400 mt-0.5">
+                      <p className="text-xs text-zinc-500 mt-1 font-mono">
                         {parseDuration(video.duration)}
                       </p>
                     )}
                     {!video.inWindow && (
-                      <span className="inline-block mt-1 text-xs text-gray-400 italic">
+                      <span className="inline-block mt-1 text-xs text-zinc-600 font-mono">
                         outside window
                       </span>
                     )}
@@ -104,22 +111,22 @@ export function VideosTable({ videos, sortField, sortDirection, onSort }: Videos
                 </div>
               </td>
 
-              <td className="px-4 py-3 text-right text-gray-600 tabular-nums whitespace-nowrap">
+              <td className="px-6 py-4 text-right text-zinc-400 tabular-nums whitespace-nowrap">
                 {formatPublished(video.publishedAt)}
               </td>
-              <td className="px-4 py-3 text-right font-medium text-gray-900 tabular-nums whitespace-nowrap">
+              <td className="px-6 py-4 text-right font-medium text-zinc-200 tabular-nums whitespace-nowrap">
                 {formatNumber(video.views)}
               </td>
-              <td className="px-4 py-3 text-right text-gray-700 tabular-nums whitespace-nowrap">
+              <td className="px-6 py-4 text-right text-zinc-300 tabular-nums whitespace-nowrap">
                 {formatNumber(video.viewsPerDay)}
               </td>
-              <td className="px-4 py-3 text-right text-gray-600 tabular-nums whitespace-nowrap">
+              <td className="px-6 py-4 text-right text-zinc-400 tabular-nums whitespace-nowrap">
                 {formatNumber(video.likes)}
               </td>
-              <td className="px-4 py-3">
+              <td className="px-6 py-4">
                 {video.isTrending ? (
-                  <span className="inline-flex items-center justify-center gap-1 rounded-full bg-green-100 px-3 py-1 text-xs font-medium leading-none text-green-700">
-                    <span className="leading-none">🔥</span>
+                  <span className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-emerald-400/10 border border-emerald-400/20 px-3 py-1.5 text-xs font-medium leading-none text-emerald-400">
+                    <span className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />
                     <span className="leading-none">Trending</span>
                   </span>
                 ) : null}

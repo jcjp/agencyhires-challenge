@@ -147,10 +147,10 @@ wrangler secret put YOUTUBE_API_KEY
 
 ### Two-Route API Design
 
-| Route | Purpose |
-|---|---|
+| Route                      | Purpose                                                       |
+| -------------------------- | ------------------------------------------------------------- |
 | `GET /api/resolve-channel` | Turns a user-pasted URL/handle/ID into a canonical channel ID |
-| `GET /api/channel-metrics` | Given a channel ID + window, returns all video metrics |
+| `GET /api/channel-metrics` | Given a channel ID + window, returns all video metrics        |
 
 Splitting resolution from metrics means the expensive metrics fetch can be cached by a stable channel ID key, independent of how the user typed the URL. The resolution step handles the messiness of YouTube's inconsistent URL formats in one isolated place.
 
@@ -160,12 +160,12 @@ Splitting resolution from metrics means the expensive metrics fetch can be cache
 
 The YouTube Data API has a daily quota of 10,000 units. Key call costs:
 
-| Operation | Cost |
-|---|---|
-| Channel lookup by ID | 1 unit |
-| Channel lookup by handle/username | 100 units |
-| Playlist items (per page, up to 50 items) | 1 unit |
-| Video stats (per batch, up to 50 videos) | 1 unit |
+| Operation                                 | Cost      |
+| ----------------------------------------- | --------- |
+| Channel lookup by ID                      | 1 unit    |
+| Channel lookup by handle/username         | 100 units |
+| Playlist items (per page, up to 50 items) | 1 unit    |
+| Video stats (per batch, up to 50 videos)  | 1 unit    |
 
 **Batching**: Video stats are fetched 50 at a time (the API maximum), so a channel with 100 recent videos costs 2 stats calls, not 100.
 
@@ -223,28 +223,28 @@ Tailwind CSS v4 with no external component library. Components are hand-rolled a
 
 ## Trade-offs Summary
 
-| Decision | Why | Cost |
-|---|---|---|
-| Cloudflare Workers | Edge latency, free tier generous, KV caching | Non-Node runtime; no global in-memory state |
-| No component library | Lean bundle, no React 19 compat issues | More bespoke CSS |
-| Client-side filtering | Zero API calls per filter interaction | All data must be fetched upfront |
-| 10-minute KV cache | Protects YouTube quota | Stale data window |
-| In-memory rate limit | Simple, zero dependencies | Not globally consistent across edge nodes |
-| 120-video cap per fetch | Bounded quota + response time | Older uploads excluded from analysis |
-| Median trending threshold | Robust to viral outliers | Threshold shifts with channel activity level |
+| Decision                  | Why                                          | Cost                                         |
+| ------------------------- | -------------------------------------------- | -------------------------------------------- |
+| Cloudflare Workers        | Edge latency, free tier generous, KV caching | Non-Node runtime; no global in-memory state  |
+| No component library      | Lean bundle, no React 19 compat issues       | More bespoke CSS                             |
+| Client-side filtering     | Zero API calls per filter interaction        | All data must be fetched upfront             |
+| 10-minute KV cache        | Protects YouTube quota                       | Stale data window                            |
+| In-memory rate limit      | Simple, zero dependencies                    | Not globally consistent across edge nodes    |
+| 120-video cap per fetch   | Bounded quota + response time                | Older uploads excluded from analysis         |
+| Median trending threshold | Robust to viral outliers                     | Threshold shifts with channel activity level |
 
 ---
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | Next.js 16 (App Router) |
-| Runtime | React 19 |
+| Layer      | Technology                        |
+| ---------- | --------------------------------- |
+| Framework  | Next.js 16 (App Router)           |
+| Runtime    | React 19                          |
 | Deployment | Cloudflare Workers (via OpenNext) |
-| Caching | Cloudflare KV |
-| Styling | Tailwind CSS v4 |
-| Toolchain | Vite+ (`vp`) |
-| Testing | Vitest (via `vp test`) |
-| Language | TypeScript (strict mode) |
-| API | YouTube Data API v3 |
+| Caching    | Cloudflare KV                     |
+| Styling    | Tailwind CSS v4                   |
+| Toolchain  | Vite+ (`vp`)                      |
+| Testing    | Vitest (via `vp test`)            |
+| Language   | TypeScript (strict mode)          |
+| API        | YouTube Data API v3               |
