@@ -1,0 +1,29 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Single bold slash mark with ascending parallel lines (channels/data streams) -->
+  <g>
+    <!-- Main bold diagonal -->
+    <line x1="12" y1="36" x2="36" y2="12" stroke="url(#main)" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Parallel ascending marks (suggest growth/analytics) -->
+    <line x1="8" y1="32" x2="20" y2="20" stroke="url(#line1)" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="28" y1="28" x2="40" y2="16" stroke="url(#line2)" stroke-width="3.5" stroke-linecap="round"/>
+  </g>
+
+  <defs>
+    <linearGradient id="main" x1="12" y1="36" x2="36" y2="12" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#059669"/>
+      <stop offset="0.5" stop-color="#10b981"/>
+      <stop offset="1" stop-color="#34d399"/>
+    </linearGradient>
+
+    <linearGradient id="line1" x1="8" y1="32" x2="20" y2="20" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#059669" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#10b981" stop-opacity="0.6"/>
+    </linearGradient>
+
+    <linearGradient id="line2" x1="28" y1="28" x2="40" y2="16" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#10b981" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#34d399" stop-opacity="0.4"/>
+    </linearGradient>
+  </defs>
+</svg>

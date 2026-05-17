@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Image from "next/image";
 import { ChannelInput } from "@/components/ChannelInput";
 import { ResultsHeader } from "@/components/ResultsHeader";
 import { FiltersBar } from "@/components/FiltersBar";
@@ -134,9 +135,9 @@ export default function Home() {
   }, [appState, filters]);
 
   return (
-    <main className="min-h-screen bg-zinc-950">
+    <main className="min-h-screen bg-zinc-950 flex flex-col">
       {/* Header bar */}
-      <header className="border-b border-zinc-900 bg-zinc-950/95 backdrop-blur-sm sticky top-0 z-50">
+      <header className="border-b border-zinc-900 bg-zinc-950/95 backdrop-blur-sm sticky top-0 z-50 flex-shrink-0">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-3">
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
@@ -147,67 +148,82 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-6 py-12 space-y-8">
-        {/* Idle: landing */}
-        {appState.status === "idle" && (
-          <div className="flex flex-col items-center justify-center py-24 gap-10">
-            <div className="text-center space-y-4 max-w-2xl">
-              <p className="text-sm text-zinc-500 font-medium">Performance Intelligence</p>
-              <h1 className="text-5xl md:text-6xl font-semibold text-zinc-50 tracking-tight leading-[0.95]">
-                Identify top-performing content
-              </h1>
-              <p className="text-base leading-7 text-zinc-400 max-w-lg mx-auto">
-                Analyze any YouTube channel to surface high-momentum videos, engagement patterns,
-                and trending signals across configurable time windows.
-              </p>
+      {/* Idle: landing - centered, no scroll */}
+      {appState.status === "idle" && (
+        <div className="flex-1 flex items-center justify-center px-6">
+          <div className="flex flex-col items-center justify-center gap-8 w-full max-w-7xl">
+            <div className="flex flex-col items-center gap-6">
+              <Image
+                src="/logo.svg"
+                alt="Channel Analytics"
+                width={64}
+                height={64}
+                className="w-16 h-16"
+              />
+              <div className="text-center space-y-3 max-w-2xl">
+                <p className="text-sm text-zinc-500 font-medium">Performance Intelligence</p>
+                <h1 className="text-5xl md:text-6xl font-semibold text-zinc-50 tracking-tight leading-[0.95]">
+                  Identify top-performing content
+                </h1>
+                <p className="text-base leading-7 text-zinc-400 max-w-lg mx-auto">
+                  Analyze any YouTube channel to surface high-momentum videos, engagement patterns,
+                  and trending signals across configurable time windows.
+                </p>
+              </div>
             </div>
             <ChannelInput onSubmit={handleChannelSubmit} />
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Loading */}
-        {appState.status === "loading" && <LoadingSkeleton />}
-
-        {/* Error */}
-        {appState.status === "error" && (
-          <div className="flex flex-col items-center gap-6 py-16">
-            <ErrorState
-              message={appState.message}
-              code={appState.code}
-              onRetry={() => setAppState({ status: "idle" })}
-            />
+      {/* Loading */}
+      {appState.status === "loading" && (
+        <div className="flex-1 flex items-center justify-center px-6">
+          <div className="w-full max-w-7xl">
+            <LoadingSkeleton />
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Success */}
-        {appState.status === "success" && (
-          <div className="space-y-6">
-            <ResultsHeader
-              channel={appState.data.channel}
-              window={appState.data.window}
-              analyzedAt={appState.data.analyzedAt}
-              onBack={() => setAppState({ status: "idle" })}
-            />
+      {/* Error */}
+      {appState.status === "error" && (
+        <div className="flex-1 flex items-center justify-center px-6">
+          <ErrorState
+            message={appState.message}
+            code={appState.code}
+            onRetry={() => setAppState({ status: "idle" })}
+          />
+        </div>
+      )}
 
-            <FiltersBar filters={filters} onChange={handleFiltersChange} videos={filteredVideos} />
+      {/* Success - scrollable */}
+      {appState.status === "success" && (
+        <div className="max-w-7xl mx-auto px-6 py-8 space-y-6 w-full">
+          <ResultsHeader
+            channel={appState.data.channel}
+            window={appState.data.window}
+            analyzedAt={appState.data.analyzedAt}
+            onBack={() => setAppState({ status: "idle" })}
+          />
 
-            <VideosTable
-              videos={filteredVideos}
-              sortField={filters.sortField}
-              sortDirection={filters.sortDirection}
-              onSort={handleSort}
-            />
+          <FiltersBar filters={filters} onChange={handleFiltersChange} videos={filteredVideos} />
 
-            <VideoCards videos={filteredVideos} />
+          <VideosTable
+            videos={filteredVideos}
+            sortField={filters.sortField}
+            sortDirection={filters.sortDirection}
+            onSort={handleSort}
+          />
 
-            <div className="pt-8 pb-4">
-              <p className="text-xs text-zinc-600 text-center font-mono">
-                Data: YouTube API v3 · Views/Day and Trending metrics are calculated estimates
-              </p>
-            </div>
+          <VideoCards videos={filteredVideos} />
+
+          <div className="pt-8 pb-4">
+            <p className="text-xs text-zinc-600 text-center font-mono">
+              Data: YouTube API v3 · Views/Day and Trending metrics are calculated estimates
+            </p>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </main>
   );
 }
